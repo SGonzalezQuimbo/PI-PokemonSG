@@ -1,4 +1,4 @@
-const {createPokemonDB} = require("../controllers/pokemonControllers.js");
+const {createPokemonDB, getPokemonById, getAllPokemons, getPokemonByName} = require("../controllers/pokemonControllers.js");
 
 const createPokemonHandler = async (req, res) => {
     const {name, image, life, attack, defense, speed, heigth, weigth} = req.body;
@@ -10,14 +10,31 @@ const createPokemonHandler = async (req, res) => {
     }
 }
 
-const getPokemonHandler = (req, res) => {
-    res.status(200).send("retornar un arreglo de objetos con los pokemon y su info")
+const getPokemonHandler = async (req, res) => {
+    const {name} = req.query;
+    try {
+        if(name) {
+            const pokemonByName = await getPokemonByName(name)
+            res.status(200).json(pokemonByName);
+        } else {
+            const response = await getAllPokemons()
+            res.status(200).json(response);
+        }
+    } catch (error) {
+        res.status(400).json({error: error.message});
+    }
 };
 
-const getDetailPokemonHandler = (req, res) => {
+const getDetailPokemonHandler = async (req, res) => {
     const {idPokemon} = req.params;
-    res.status(200).send(`retornar un objeto con la info del pokemon con id ${idPokemon} tanto si esta en la bd o en la api`);
-}
+    const source = isNaN(idPokemon) ? 'bdd' : 'api'; //si el id es de tipo numero entonces el usuario debe ser buscado en la api, pero si no es de tipo number(UUID) entonces hay que buscarlo en la BdD
+    try {
+        const response = await getPokemonById(idPokemon, source)
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+};
 
 module.exports = {
     createPokemonHandler,

@@ -5,14 +5,7 @@ const { getPokemonHandler, getDetailPokemonHandler, createPokemonHandler } = req
 
 const pokemonsRouter = Router();
 
-pokemonsRouter.get("/", (req, res) => { //getPokemonHandler);
-const {name} = req.query;
-    if (name) {
-        res.status(200).send(`retornar el pokemon por nombre ${name}`);
-    };
-    res.status(200).send("retornar un arreglo de objetos con los pokemon y su info");
-}
-);
+pokemonsRouter.get("/", getPokemonHandler);
 
 
 pokemonsRouter.get("/:idPokemon", getDetailPokemonHandler);

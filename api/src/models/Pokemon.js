@@ -32,13 +32,17 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    heigth: {
+    height: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    weigth: {
+    weight: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    created: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
     }
   });
 };
