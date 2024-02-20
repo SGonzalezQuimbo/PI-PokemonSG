@@ -3,14 +3,26 @@ const {Pokemon} = require("../db");
 
 //funcion auxiliar para poder limpiar los datos obtenidos desde la API y quedarme solamente con los que quiero
 const infoCleanerObj = (pokeObj) => { 
+    
+        // let objPokemon = {
+        //     name: pokeObj.name,
+        //     image: pokeObj.sprites.front_default,
+        //     height: pokeObj.height,
+        //     weight: pokeObj.weight,
+        //     created: false,
+        // }; //este obj sin la key stats sirve por si quiero concatenarle los stats con el metodo Object.assign
+
+        let allStates = {};
+        pokeObj.stats.forEach((st) => {
+            allStates[st.stat.name] = st.base_stat;
+            //Object.assign(objPokemon, allStates); //esto si quiero que las carcteristicas sean key y value diferentes del mismo objeto de retorno
+        });
+
+    // de esta forma me retorna un objeto dentro de la key stats con todos los estados.
     return {
         name: pokeObj.name,
-        //image: pokeObj.sprites.front_default,
-        // life: pokeObj.life,
-        // attack: pokeObj.attack,
-        // defense: pokeObj.defense,
-        // speed: pokeObj.speed,
-        //stats: pokeObj.stats,
+        image: pokeObj.sprites.front_default,
+        stats: allStates,
         height: pokeObj.height,
         weight: pokeObj.weight,
         created: false, // esto nos sirve para saber si el pokemon vienen de la API o de la BdD
@@ -18,7 +30,7 @@ const infoCleanerObj = (pokeObj) => {
     
 };
 
-//const statsPokemon = (arr) => arr.map() hay que revisar bien para filtrar la info
+
 
 const createPokemonDB = async (name, image, life, attack, defense, speed, height, weight) => {
     const newPokemon = await Pokemon.create({name, image, life, attack, defense, speed, height, weight});
@@ -28,11 +40,11 @@ const createPokemonDB = async (name, image, life, attack, defense, speed, height
 const getPokemonById = async (idPokemon, source) => {
     const pokemonXId = 
     source === 'api' 
-    ? infoCleaner((await axios.get(`https://pokeapi.co/api/v2/pokemon/${idPokemon}`)).data) 
+    ? infoCleanerObj((await axios.get(`https://pokeapi.co/api/v2/pokemon/${idPokemon}`)).data) 
     
     : await Pokemon.findByPk(idPokemon);
-
-    return pokemonXId;
+    console.log(pokemonXId);
+    //return pokemonXId;
 }
 
 const getPokemonByName = async (name) => {
@@ -67,7 +79,7 @@ const getAllPokemons = async () => {
     for (let i = 0; i < pokemonDB.length; i++) { //pero en el caso de la BDD yo puedo tener varios pokemon con el mismo nombre.
         totalPokemons.push(pokemonDB[i]);
     }
-    console.log(totalPokemons);
+    //console.log(totalPokemons);
      return totalPokemons;
 }
 
