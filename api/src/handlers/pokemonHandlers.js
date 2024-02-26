@@ -1,9 +1,9 @@
 const {createPokemonDB, getPokemonById, getAllPokemons, getPokemonByName} = require("../controllers/pokemonControllers.js");
 
 const createPokemonHandler = async (req, res) => {
-    const {name, image, life, attack, defense, speed, height, weight} = req.body;
+    const {name, image, life, attack, defense, speed, height, weight, types} = req.body;
     try {
-        const response = await createPokemonDB(name, image, life, attack, defense, speed, height, weight);
+        const response = await createPokemonDB(name, image, life, attack, defense, speed, height, weight, types);
         res.status(200).json(response);
     } catch (error) {
         res.status(400).json({error: error.message});

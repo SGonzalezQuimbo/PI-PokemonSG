@@ -1,5 +1,5 @@
 const axios = require('axios');
-const {Pokemon} = require("../db");
+const {Pokemon, Type} = require("../db");
 
 //funcion auxiliar para poder limpiar los datos obtenidos desde la API y quedarme solamente con los que quiero
 const infoCleanerObj = (pokeObj) => { 
@@ -32,8 +32,9 @@ const infoCleanerObj = (pokeObj) => {
 
 
 
-const createPokemonDB = async (name, image, life, attack, defense, speed, height, weight) => {
+const createPokemonDB = async (name, image, life, attack, defense, speed, height, weight, types) => {
     const newPokemon = await Pokemon.create({name, image, life, attack, defense, speed, height, weight});
+    newPokemon.addTypes(types); // addTypes es un metodo que genera sequelize automaticamente para la instancia ya que se establecio la relacion belongstomany
     return newPokemon;
 }
 
@@ -43,8 +44,8 @@ const getPokemonById = async (idPokemon, source) => {
     ? infoCleanerObj((await axios.get(`https://pokeapi.co/api/v2/pokemon/${idPokemon}`)).data) 
     
     : await Pokemon.findByPk(idPokemon);
-    console.log(pokemonXId);
-    //return pokemonXId;
+    //console.log(pokemonXId);
+    return pokemonXId;
 }
 
 const getPokemonByName = async (name) => {
@@ -65,7 +66,16 @@ const getPokemonByName = async (name) => {
 
 
 const getAllPokemons = async () => {
-    const pokemonDB = await Pokemon.findAll();
+    const pokemonDB = await Pokemon.findAll({
+        include: { //para me tambien me muestre la tabla intermedia con los types
+            model: Type,
+            attributes: ['name'],
+            through: {
+                attributes: [],
+            }
+        }
+    }
+    );
     const infoApi = (await axios.get('https://pokeapi.co/api/v2/pokemon')).data.results;
     const allPokemonsApi = infoApi.map( async (poke) => {
         const response = (await axios.get(poke.url)).data;

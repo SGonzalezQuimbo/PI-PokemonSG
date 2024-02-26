@@ -1,13 +1,10 @@
 const { Router } = require('express');
+const { getTypesHandler } = require('../handlers/typesHandler');
 
 
 
 const typesRouter = Router();
 
-typesRouter.get("/", (req,res) => {
-    //obtine un arreglo con todos los tipos de pokemons desde la api.
-    //los guarda en la BD
-    //para utilizarlos en el front deben ser sacados desde la BD.
-})
+typesRouter.get("/", getTypesHandler);
 
 module.exports = typesRouter;
