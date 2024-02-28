@@ -3,37 +3,45 @@ const {Pokemon, Type} = require("../db");
 
 //funcion auxiliar para poder limpiar los datos obtenidos desde la API y quedarme solamente con los que quiero
 const infoCleanerObj = (pokeObj) => { 
-    
-        // let objPokemon = {
-        //     name: pokeObj.name,
-        //     image: pokeObj.sprites.front_default,
-        //     height: pokeObj.height,
-        //     weight: pokeObj.weight,
-        //     created: false,
-        // }; //este obj sin la key stats sirve por si quiero concatenarle los stats con el metodo Object.assign
 
-        let allStates = {};
+    let typesPoke = []; //en este array cargo los tipo correspondientes a cada pokemon
+    pokeObj.types.forEach((ty) =>{
+        typesPoke.push({name : ty.type.name})
+    })
+    
+        let objPokemon = {
+            id: pokeObj.id,
+            name: pokeObj.name,
+            image: pokeObj.sprites.front_default,
+            height: pokeObj.height,
+            weight: pokeObj.weight,
+            created: false,
+            types: typesPoke,
+        }; //este obj sin la key stats sirve por si quiero concatenarle los stats con el metodo Object.assign
+
+        let allStates = {}; //en este objeto se guardan las propiedades del estado de los pokemons con el nombre de cada estado como clave y su valor como value
         pokeObj.stats.forEach((st) => {
             allStates[st.stat.name] = st.base_stat;
-            //Object.assign(objPokemon, allStates); //esto si quiero que las carcteristicas sean key y value diferentes del mismo objeto de retorno
+            Object.assign(objPokemon, allStates); //esto si quiero que las carcteristicas sean key y value diferentes del mismo objeto de retorno
         });
 
+return objPokemon;
     // de esta forma me retorna un objeto dentro de la key stats con todos los estados.
-    return {
-        name: pokeObj.name,
-        image: pokeObj.sprites.front_default,
-        stats: allStates,
-        height: pokeObj.height,
-        weight: pokeObj.weight,
-        created: false, // esto nos sirve para saber si el pokemon vienen de la API o de la BdD
-    }
+    // return {
+    //     name: pokeObj.name,
+    //     image: pokeObj.sprites.front_default,
+    //     stats: allStates,
+    //     height: pokeObj.height,
+    //     weight: pokeObj.weight,
+    //     created: false, // esto nos sirve para saber si el pokemon vienen de la API o de la BdD
+    // }
     
 };
 
 
 
-const createPokemonDB = async (name, image, life, attack, defense, speed, height, weight, types) => {
-    const newPokemon = await Pokemon.create({name, image, life, attack, defense, speed, height, weight});
+const createPokemonDB = async (name, image, hp, attack, defense, specialattack, specialdefense, speed, height, weight, types) => {
+    const newPokemon = await Pokemon.create({name, image, hp, attack, defense, specialattack, specialdefense, speed, height, weight});
     newPokemon.addTypes(types); // addTypes es un metodo que genera sequelize automaticamente para la instancia ya que se establecio la relacion belongstomany
     return newPokemon;
 }
@@ -81,7 +89,7 @@ const getAllPokemons = async () => {
         const response = (await axios.get(poke.url)).data;
         return infoCleanerObj(response);
     })
-    console.log(await Promise.all(allPokemonsApi));
+    //console.log(await Promise.all(allPokemonsApi));
     //return (await Promise.all(allPokemonsApi));
 
     //optimizar funcion y hacerla reutilizable

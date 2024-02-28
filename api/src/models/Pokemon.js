@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
     image: {
       type: DataTypes.STRING,
     },
-    life: {
+    hp: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -25,6 +25,14 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     defense: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    specialattack: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    specialdefense: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -43,6 +51,8 @@ module.exports = (sequelize) => {
     created: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
-    }
-  });
+    },
+  },
+  {timestamps: false}
+  );
 };
