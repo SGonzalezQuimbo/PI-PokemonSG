@@ -18,7 +18,6 @@ useEffect(()=> {
   dispatch(getPokemons())
 },[dispatch]);
 
-
     return (
       <div className="home">
         <Cards allPokemons={allPokemons}/>
