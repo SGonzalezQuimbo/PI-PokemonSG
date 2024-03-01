@@ -84,20 +84,49 @@ const getAllPokemons = async () => {
         }
     }
     );
-    const infoApi = (await axios.get('https://pokeapi.co/api/v2/pokemon')).data.results;
-    const allPokemonsApi = infoApi.map( async (poke) => {
+    const infoApi = (await axios.get('https://pokeapi.co/api/v2/pokemon')).data;//.data.results
+    let urlNext = infoApi.next;
+    console.log(`fuera del while ${urlNext}`);
+//descomentar cesto es codigo original
+    const allPokemonsApi = infoApi.results.map( async (poke) => { 
         const response = (await axios.get(poke.url)).data;
         return infoCleanerObj(response);
     })
+//hataa aca codigo original
+
+    //parte agregada para poder cargar mas pokemons
+    let totalPokemons = (await Promise.all(allPokemonsApi))
+    const cantVueltas = 6;
+    let vuelta = 1;
+    while (vuelta !== cantVueltas) {
+        let infoApiNext = (await axios.get(urlNext)).data;
+        console.log(`dentro del while ${urlNext}`);
+        urlNext = infoApiNext.next;
+
+        const allPokemonsNext = infoApiNext.results.map(async (poke) =>{
+            const response =(await axios.get(poke.url)).data;
+            return infoCleanerObj(response);
+        });
+        
+        console.log(`ultimo valor en el while ${urlNext}`);
+        vuelta++;
+        console.log(vuelta);
+        totalPokemons.push(await Promise.all(allPokemonsNext));
+    }
+
+    //hasta aca se agrego para poder cargar mas poquemons
+
+
     //console.log(await Promise.all(allPokemonsApi));
     //return (await Promise.all(allPokemonsApi));
 
     //optimizar funcion y hacerla reutilizable
-    let totalPokemons = (await Promise.all(allPokemonsApi));          //creo este array para poder almacenar y retornar la info tanto de la API com de la BDD unificadas
+    //tottalPokemons la declaro mas arriba para cargar los pokemons.
+   // let totalPokemons = (await Promise.all(allPokemonsApi));          //creo este array para poder almacenar y retornar la info tanto de la API com de la BDD unificadas
     for (let i = 0; i < pokemonDB.length; i++) { //pero en el caso de la BDD yo puedo tener varios pokemon con el mismo nombre.
         totalPokemons.push(pokemonDB[i]);
     }
-    //console.log(totalPokemons);
+    console.log(totalPokemons.length);
      return totalPokemons;
 }
 

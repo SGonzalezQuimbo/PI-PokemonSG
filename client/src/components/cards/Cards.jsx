@@ -2,8 +2,8 @@ import Card from "../card/Card";
 
 import './cards.styles.css'
 
-function Cards({allPokemons}) {
-  const pokemonsList = allPokemons;
+function Cards({nPokemons}) {
+  const pokemonsList = nPokemons;
     
   return (
       <div className= "cards-list">
