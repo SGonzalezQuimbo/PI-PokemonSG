@@ -1,8 +1,10 @@
+import './selectType.styles.css'
+
 function SelectType({allTypesDb}){
     const allTypesList = allTypesDb;
-    console.log(`esto es en SelecType ${allTypesList}`);
+    //console.log(`esto es en SelecType ${allTypesList}`);
     return (
-        <div>
+        <div className="select-container">
             <select>
                 {allTypesList?.map((type) => {
                     return (

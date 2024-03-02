@@ -20,7 +20,7 @@ function Create() {
 
   },[dispatch, charged]);
 
-console.log(`Esto es despues del useEffect en create ${allTypesDb}`);
+//console.log(`Esto es despues del useEffect en create ${allTypesDb}`);
   
   const [errors, setErrors] = useState({
     name:"",

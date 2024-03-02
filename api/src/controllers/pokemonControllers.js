@@ -75,7 +75,7 @@ const getPokemonByName = async (name) => {
 
 //const URL = "https://pokeapi.co/api/v2/pokemon"; 
 const FILTER_POKE = "?limit=";
-const CANT_POKE = "100";
+const CANT_POKE = "20";
 
 
 const getAllPokemons = async () => {

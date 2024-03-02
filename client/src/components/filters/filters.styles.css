@@ -1,5 +1,5 @@
-.navbar {
-    background-color: chartreuse;
+.filters-container {
+    background-color: red;
     display: flex;
     /* flex-direction: row; */
     justify-content: space-around;
@@ -11,4 +11,15 @@
     width: 100%;
     line-height: 30px;
     margin-bottom: 30px;
+}
+
+.filter-type{
+    background-color: blue;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.filter-origin{
+    background-color: green;
 }

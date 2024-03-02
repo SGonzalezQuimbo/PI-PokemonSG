@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_POKEMONS, ORDER, FILTER, RESET, GET_TYPES, GET_POKEMON_BY_NAME, GET_POKEMON_BY_ID } from "./actions_types";
+import { GET_POKEMONS, ORDER_ALF, ORDER_BY_ATTACK, FILTER_BY_ORIGIN, FILTER_BY_TYPE, RESET, GET_TYPES, GET_POKEMON_BY_NAME, GET_POKEMON_BY_ID } from "./actions_types";
 
 export const getPokemons = () => {
     return async function (dispatch) {
@@ -46,17 +46,33 @@ export const getPokemonsByName = () => {
     }
 }
 
-export const orderPokemons = (type_ord) => {
+export const orderPokemonsAlf = (ordAlf) => {
     return {
-        type: ORDER,
-        payload: type_ord,
+        type: ORDER_ALF,
+        payload: ordAlf,
     }
 }
 
-export const filterPokemons = (type_filter) => {
+export const orderPokemonsByAttack = (ordAttack) => {
+    return function (dispatch) {
+        dispatch({
+            type: ORDER_BY_ATTACK,
+            payload: ordAttack,
+        }) 
+    }
+}
+
+export const filterPokemonsByOrigin = (filterOrigin) => {
     return {
-        type: FILTER,
-        payload: type_filter,
+        type: FILTER_BY_ORIGIN,
+        payload: filterOrigin,
+    }
+}
+
+export const filterPokemonsByType = (filterType) => {
+    return {
+        type: FILTER_BY_TYPE,
+        payload: filterType,
     }
 }
 
