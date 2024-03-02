@@ -1,6 +1,7 @@
 const axios = require('axios');
 const {Pokemon, Type} = require("../db");
 
+
 //funcion auxiliar para poder limpiar los datos obtenidos desde la API y quedarme solamente con los que quiero
 const infoCleanerObj = (pokeObj) => { 
 
@@ -72,6 +73,10 @@ const getPokemonByName = async (name) => {
 }
 
 
+//const URL = "https://pokeapi.co/api/v2/pokemon"; 
+const FILTER_POKE = "?limit=";
+const CANT_POKE = "100";
+
 
 const getAllPokemons = async () => {
     const pokemonDB = await Pokemon.findAll({
@@ -84,9 +89,10 @@ const getAllPokemons = async () => {
         }
     }
     );
-    const infoApi = (await axios.get('https://pokeapi.co/api/v2/pokemon')).data;//.data.results
-    let urlNext = infoApi.next;
-    console.log(`fuera del while ${urlNext}`);
+    
+    const infoApi = (await axios.get(`https://pokeapi.co/api/v2/pokemon${FILTER_POKE}${CANT_POKE}`)).data;//.data.results
+    //let urlNext = infoApi.next;
+   
 //descomentar cesto es codigo original
     const allPokemonsApi = infoApi.results.map( async (poke) => { 
         const response = (await axios.get(poke.url)).data;
@@ -95,24 +101,24 @@ const getAllPokemons = async () => {
 //hataa aca codigo original
 
     //parte agregada para poder cargar mas pokemons
-    let totalPokemons = (await Promise.all(allPokemonsApi))
-    const cantVueltas = 6;
-    let vuelta = 1;
-    while (vuelta !== cantVueltas) {
-        let infoApiNext = (await axios.get(urlNext)).data;
-        console.log(`dentro del while ${urlNext}`);
-        urlNext = infoApiNext.next;
+    // let totalPokemons = (await Promise.all(allPokemonsApi))
+    // const cantVueltas = 6;
+    // let vuelta = 1;
+    // while (vuelta !== cantVueltas) {
+    //     let infoApiNext = (await axios.get(urlNext)).data;
+    //     console.log(`dentro del while ${urlNext}`);
+    //     urlNext = infoApiNext.next;
 
-        const allPokemonsNext = infoApiNext.results.map(async (poke) =>{
-            const response =(await axios.get(poke.url)).data;
-            return infoCleanerObj(response);
-        });
+    //     const allPokemonsNext = infoApiNext.results.map(async (poke) =>{
+    //         const response =(await axios.get(poke.url)).data;
+    //         return infoCleanerObj(response);
+    //     });
         
-        console.log(`ultimo valor en el while ${urlNext}`);
-        vuelta++;
-        console.log(vuelta);
-        totalPokemons.push(await Promise.all(allPokemonsNext));
-    }
+    //     console.log(`ultimo valor en el while ${urlNext}`);
+    //     vuelta++;
+    //     console.log(vuelta);
+    //     totalPokemons.push(await Promise.all(allPokemonsNext));
+    // }
 
     //hasta aca se agrego para poder cargar mas poquemons
 
@@ -122,7 +128,7 @@ const getAllPokemons = async () => {
 
     //optimizar funcion y hacerla reutilizable
     //tottalPokemons la declaro mas arriba para cargar los pokemons.
-   // let totalPokemons = (await Promise.all(allPokemonsApi));          //creo este array para poder almacenar y retornar la info tanto de la API com de la BDD unificadas
+    let totalPokemons = (await Promise.all(allPokemonsApi));          //creo este array para poder almacenar y retornar la info tanto de la API com de la BDD unificadas
     for (let i = 0; i < pokemonDB.length; i++) { //pero en el caso de la BDD yo puedo tener varios pokemon con el mismo nombre.
         totalPokemons.push(pokemonDB[i]);
     }

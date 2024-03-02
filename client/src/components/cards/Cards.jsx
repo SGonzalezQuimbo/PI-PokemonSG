@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom/cjs/react-router-dom";
 import Card from "../card/Card";
 
 import './cards.styles.css'
@@ -9,9 +10,10 @@ function Cards({nPokemons}) {
       <div className= "cards-list">
         {pokemonsList?.map((pokemon) => {
           return(
-          <Card
-            key={pokemon.id}
-            pokemon={pokemon}/>
+            <NavLink key ={pokemon.id} to={`/detail/${pokemon.id}`}>
+              <Card key={pokemon.id} pokemon={pokemon}/>
+            </NavLink>
+          
           )})}
       </div>
     );

@@ -32,7 +32,7 @@ const getDetailPokemonHandler = async (req, res) => {
         const response = await getPokemonById(idPokemon, source)
         res.status(200).json(response);
     } catch (error) {
-        res.status(400).json({error: error.message})
+        res.status(400).json({message: 'No existe pokemon con ese ID'})
     }
 };
 
