@@ -1,10 +1,11 @@
-import { GET_POKEMONS, ORDER_ALF, ORDER_BY_ATTACK, FILTER_BY_ORIGIN, FILTER_BY_TYPE, RESET, GET_TYPES } from "../actions/actions_types";
+import { GET_POKEMONS, ORDER_ALF, ORDER_BY_ATTACK, FILTER_BY_ORIGIN, FILTER_BY_TYPE, RESET, GET_TYPES, GET_POKEMON_BY_ID, CLEAR_DETAIL } from "../actions/actions_types";
 
 
 let initialState = {
     allPokemons: [],
     allPokemonsCopy: [],
-    allTypesDb: [], 
+    pokemonById: [],
+    allTypesDb: [],
 }
 
 function rootReducer(state = initialState, action) {
@@ -15,7 +16,18 @@ function rootReducer(state = initialState, action) {
                 allPokemons: action.payload,
                 allPokemonsCopy: action.payload,
             };
-        
+
+        case GET_POKEMON_BY_ID:
+            return {
+                ...state,
+                pokemonById: action.payload,
+            };
+        case CLEAR_DETAIL:
+            return {
+                ...state,
+                pokemonById: [],
+            }
+
         case GET_TYPES:
             return {
                 ...state,

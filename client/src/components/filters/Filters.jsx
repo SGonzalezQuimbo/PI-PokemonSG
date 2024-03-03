@@ -5,19 +5,19 @@ import { useSelector, useDispatch } from "react-redux";
 //import Cards from "../cards/Cards";
 
 
-function Filters() {
+function Filters({handleOrder}) {
 
-    const allPokemonsCopy = useSelector((state) => state.allPokemonsCopy);
-    const dispatch = useDispatch();
-    console.log(allPokemonsCopy);
+    // const allPokemonsCopy = useSelector((state) => state.allPokemonsCopy);
+    // const dispatch = useDispatch();
+    // console.log(allPokemonsCopy);
 
-    const handleOrder = (event) => {
-        //event.preventDefault();
-        const {name, value} = event.target;
-        console.log(value, name);
-        dispatch(orderPokemonsByAttack(value));
-        console.log(allPokemonsCopy);
-    }
+    // const handleOrder = (event) => {
+    //     //event.preventDefault();
+    //     const {name, value} = event.target;
+    //     console.log(value, name);
+    //     dispatch(orderPokemonsByAttack(value));
+    //     console.log(allPokemonsCopy);
+    // }
 
 
     return (
@@ -49,8 +49,8 @@ function Filters() {
 
        <div>
         <label>Ordenar por Attack</label>
-        <button value="A" name="A" onClick={handleOrder}>Mayor a menor</button>
-        <button value="D" name="D" onClick={handleOrder}>menor a Mayor</button>
+        <button value="A" name="A" onClick={(e)=>handleOrder(e)}>Mayor a menor</button>
+        <button value="D" name="D" onClick={(e)=>handleOrder(e)}>menor a Mayor</button>
        </div>
 
        <div>

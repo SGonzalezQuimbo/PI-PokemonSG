@@ -11,3 +11,4 @@ export const FILTER_BY_ORIGIN = "FILTER_BY_ORIGIN";
 export const FILTER_BY_TYPE = "FILTER_BY_TYPE";
 
 export const RESET = "RESET";
+export const CLEAR_DETAIL = "CLEAR_DETAIL";

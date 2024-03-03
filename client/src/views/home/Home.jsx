@@ -15,22 +15,37 @@ const dispatch = useDispatch();
 const allPokemons = useSelector(state => state.allPokemons); //estado global para cargar todos los pokemons.
 const allPokemonsCopy = useSelector(state => state.allPokemonsCopy);
 
+const [pokeFiltered, setPokeFiltered] = useState(allPokemonsCopy);
+
 const [pokeQt, setPokeQt] = useState(4); //estado local para manejar la cantidad de pokemons que quiero renderizar en la pagina
 const [page, setPage] = useState(1); //estado para controlar y/o actualizar el numero de la pagina en la que me encuentro.
 
+const handleOrder = (event) => {
+  event.preventDefault();
+  const value = event.target.value
+  const orderFiltered = allPokemonsCopy.sort((a,b) =>{
+    if (value === 'A') {
+      return b.id - a.id;
+    }
+    return a.id - b.id;
+  });
+  setPokeFiltered(orderFiltered);
+}
+
+
 useEffect(()=> {
   dispatch(getPokemons());
-},[dispatch]);
+},[dispatch, pokeFiltered]);
 
-//console.log(`en home ${allPokemons}`);
+console.log(`en home pokeFiltered ${pokeFiltered}`);
 
 //ahora es necesario manejar de forma dinamica los indices del slice para mostrar los diferentes pokemons
 const indexFin = page * pokeQt;
 const indexIni = indexFin - pokeQt;
 
 //para limitar los pokemons que se muestran en pantalla
-const nPokemons = allPokemonsCopy.slice(indexIni, indexFin);
-const totalPages = Math.ceil(allPokemonsCopy.length / pokeQt);
+const nPokemons = pokeFiltered.slice(indexIni, indexFin);
+const totalPages = Math.ceil(pokeFiltered.length / pokeQt);
 
 
 //funciones para cambiar de pagina con Prev y Next
@@ -49,7 +64,7 @@ const next = () => {
     return (
       <div className="home">
         <div>
-          <Filters/>
+          <Filters handleOrder={handleOrder}/>
         </div>
 
         <div>
