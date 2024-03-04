@@ -1,26 +1,29 @@
 import { orderPokemonsByAttack } from "../../redux/actions/actions";
+import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import SelectType from "../../views/create/SelectType";
 import './filters.styles.css';
 import { useSelector, useDispatch } from "react-redux";
-//import Cards from "../cards/Cards";
+// import Cards from "../cards/Cards";
+import Card from "../card/Card"
 
 
-function Filters({handleOrder}) {
+function Filters() {
 
-    // const allPokemonsCopy = useSelector((state) => state.allPokemonsCopy);
-    // const dispatch = useDispatch();
-    // console.log(allPokemonsCopy);
+    const allPokemonsCopy = useSelector((state) => state.allPokemonsCopy);
+    const dispatch = useDispatch();
+    console.log(allPokemonsCopy);
 
-    // const handleOrder = (event) => {
-    //     //event.preventDefault();
-    //     const {name, value} = event.target;
-    //     console.log(value, name);
-    //     dispatch(orderPokemonsByAttack(value));
-    //     console.log(allPokemonsCopy);
-    // }
+    const handleOrder = (event) => {
+        event.preventDefault();
+        const {name, value} = event.target;
+        console.log(value, name);
+        dispatch(orderPokemonsByAttack(value));
+        console.log(allPokemonsCopy);
+    }
 
 
     return (
+      <>
       <div className="filters-container">
         
         <div>
@@ -49,15 +52,24 @@ function Filters({handleOrder}) {
 
        <div>
         <label>Ordenar por Attack</label>
-        <button value="A" name="A" onClick={(e)=>handleOrder(e)}>Mayor a menor</button>
-        <button value="D" name="D" onClick={(e)=>handleOrder(e)}>menor a Mayor</button>
-       </div>
-
-       <div>
-       {/* <Cards allPokemonsCopy={allPokemonsCopy}/> */}
+        <select onChange={handleOrder}>
+          <option value="D" name="D" >Mayor a menor</option>
+          <option value="A" name="A" >menor a Mayor</option>
+        </select>
        </div>
 
       </div>
+      <div>
+      {allPokemonsCopy?.map((pokemon) => {
+          return(
+            <NavLink key ={pokemon.id} to={`/detail/${pokemon.id}`}>
+              <Card key={pokemon.id} pokemon={pokemon}/>
+            </NavLink>
+          
+          )})}
+        {/* <Cards allPokemonsCopy={allPokemonsCopy}/> */}
+       </div>
+      </>
     );
   }
   

@@ -3,8 +3,8 @@ import Card from "../card/Card";
 
 import './cards.styles.css'
 
-function Cards({nPokemons}) {
-  const pokemonsList = nPokemons;
+function Cards({allPokemonsCopy}) {
+  const pokemonsList = allPokemonsCopy;
     
   return (
       <div className= "cards-list">

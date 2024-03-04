@@ -1,20 +1,19 @@
-import { GET_POKEMONS, ORDER_ALF, ORDER_BY_ATTACK, FILTER_BY_ORIGIN, FILTER_BY_TYPE, RESET, GET_TYPES, GET_POKEMON_BY_ID, CLEAR_DETAIL } from "../actions/actions_types";
+import { GET_POKEMONS, ORDER, FILTER_BY_ORIGIN, RESET, GET_TYPES, GET_POKEMON_BY_ID, CLEAR_DETAIL } from "../actions/actions_types";
 
 
-let initialState = {
+const initialState = {
     allPokemons: [],
     allPokemonsCopy: [],
     pokemonById: [],
     allTypesDb: [],
-}
+};
 
-function rootReducer(state = initialState, action) {
+const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_POKEMONS:
             return {
                 ...state,
                 allPokemons: action.payload,
-                allPokemonsCopy: action.payload,
             };
 
         case GET_POKEMON_BY_ID:
@@ -34,7 +33,7 @@ function rootReducer(state = initialState, action) {
                 allTypesDb: action.payload,
             };
 
-        case ORDER_BY_ATTACK:
+        case ORDER:
             const orderFiltered = state.allPokemons.sort((a,b) => {
                 if(action.payload === 'A') {
                     return b.id - a.id
@@ -44,7 +43,7 @@ function rootReducer(state = initialState, action) {
             return {
                 ...state,
                 allPokemonsCopy: orderFiltered,
-            }
+            };
 
         case FILTER_BY_ORIGIN:
             break;
