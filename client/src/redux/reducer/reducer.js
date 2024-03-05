@@ -1,4 +1,4 @@
-import { GET_POKEMONS, ORDER, FILTER_BY_ORIGIN, RESET, GET_TYPES, GET_POKEMON_BY_ID, CLEAR_DETAIL } from "../actions/actions_types";
+import { GET_POKEMONS, ORDER, ORDER_ALF, FILTER_BY_ORIGIN, RESET, GET_TYPES, GET_POKEMON_BY_ID, CLEAR_DETAIL } from "../actions/actions_types";
 
 
 const initialState = {
@@ -14,6 +14,7 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 allPokemons: action.payload,
+                allPokemonsCopy: action.payload,
             };
 
         case GET_POKEMON_BY_ID:
@@ -34,15 +35,27 @@ const rootReducer = (state = initialState, action) => {
             };
 
         case ORDER:
-            const orderFiltered = state.allPokemons.sort((a,b) => {
+            const orderFiltered = state.allPokemonsCopy.sort((a,b) => {
                 if(action.payload === 'A') {
-                    return b.id - a.id
+                    return a.attack - b.attack
                 } 
-                return a.id - b.id;
+                return b.attack - a.attack;
             });
             return {
                 ...state,
-                allPokemonsCopy: orderFiltered,
+                allPokemonsCopy: [...orderFiltered],
+            };
+        
+        case ORDER_ALF:
+            const newOrder = state.allPokemonsCopy.sort((a,b) => {
+                if(action.payload === 'A') {
+                    return a.name.charCodeAt(0) - b.name.charCodeAt(0)
+                }
+                return b.name.charCodeAt(0) - a.name.charCodeAt(0)
+            });
+            return {
+                ...state,
+                allPokemonsCopy: [...newOrder],
             };
 
         case FILTER_BY_ORIGIN:

@@ -8,7 +8,7 @@ function SelectType({allTypesDb}){
             <select>
                 {allTypesList?.map((type) => {
                     return (
-                        <option key={type.id} value={type.name}>{type.name}</option>
+                        <option key={type.id} value={type.name} >{type.name}</option>
                     )
                 })}
             </select>

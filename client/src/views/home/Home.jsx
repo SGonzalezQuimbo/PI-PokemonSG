@@ -1,7 +1,7 @@
 import { useEffect,  } from "react"; //useState
-import {useDispatch, } from "react-redux"; //useSelector
+import {useDispatch, useSelector} from "react-redux"; //
 
-import { getPokemons } from "../../redux/actions/actions";
+import { getPokemons, getTypesDb } from "../../redux/actions/actions";
 
 //import Cards from "../../components/cards/Cards";
 // import Navbar from "../../components/navbar/Navbar";
@@ -13,8 +13,11 @@ import Pagination from "../../components/pagination/Pagination";
 function Home() {
 
 const dispatch = useDispatch();
-//const allPokemonsCopy = useSelector(state => state.allPokemonsCopy); //estado global para cargar todos los pokemons.
+const allPokemons = useSelector(state => state.allPokemons); //estado global para cargar todos los pokemons.
+const allTypesDb = useSelector(state => state.allTypesDb);
 //const allPokemonsCopy = useSelector(state => state.allPokemonsCopy);
+let cantPoke = allPokemons.length;
+let cantTypesDB = allTypesDb.length; //ver si funciona para no seguir cargando datos en la DB
 
 //const [pokeFiltered, setPokeFiltered] = useState(allPokemons);
 //const [charged, setCharged] = useState(false);
@@ -34,10 +37,14 @@ const dispatch = useDispatch();
 //   setPokeFiltered(orderFiltered);
 // }
 
-
+console.log(`cantPoke largo ${cantPoke}`);
+console.log(`cantTypesDB largo ${cantTypesDB}`);
 useEffect(()=> {
-  dispatch(getPokemons());
-},[dispatch]);
+  if (cantPoke === 0) {
+    dispatch(getPokemons());
+    dispatch(getTypesDb());
+  };
+},[dispatch, cantPoke]);
 
 //console.log(`en home se monta el componente pokeFiltered ${allPokemonsCopy}`);
 

@@ -1,24 +1,24 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getTypesDb } from "../../redux/actions/actions";
+import {  useSelector } from "react-redux";//useDispatch,
+//import { getTypesDb } from "../../redux/actions/actions";
 
 import SelectType from "./SelectType";
 
 function Create() {
 
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   const allTypesDb = useSelector(state => state.allTypesDb);
-  const [charged, setCharged] = useState(false) //revisar porque no funciona
+  //const [charged, setCharged] = useState(false) //revisar porque no funciona
 
   useEffect(()=>{
+    console.log("crete montado")
+    // if(!charged){
+    //   dispatch(getTypesDb());
+    //   setCharged(true);
+    // }
 
-    if(!charged){
-      dispatch(getTypesDb());
-      setCharged(true);
-    }
-
-  },[dispatch, charged]);
+  },[]);
 
 //console.log(`Esto es despues del useEffect en create ${allTypesDb}`);
   

@@ -1,24 +1,30 @@
-import { orderPokemonsByAttack } from "../../redux/actions/actions";
-import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import { orderPokemonsAlf, orderPokemonsByAttack } from "../../redux/actions/actions";
+//import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import SelectType from "../../views/create/SelectType";
 import './filters.styles.css';
 import { useSelector, useDispatch } from "react-redux";
-// import Cards from "../cards/Cards";
-import Card from "../card/Card"
+import Cards from "../cards/Cards";
+//import Card from "../card/Card"
 
 
 function Filters() {
 
-    const allPokemonsCopy = useSelector((state) => state.allPokemonsCopy);
+    const allPokemonsCopy = useSelector(state => state.allPokemonsCopy);
     const dispatch = useDispatch();
     console.log(allPokemonsCopy);
 
+    const handleOrderAlf = (event) => {
+      event.preventDefault();
+      const {value} = event.target;
+      dispatch(orderPokemonsAlf(value));
+      console.log("despachando orderAlf");
+    }
+
     const handleOrder = (event) => {
-        event.preventDefault();
+        //event.preventDefault();
         const {name, value} = event.target;
-        console.log(value, name);
+        console.log(`Este es el value ${value}, y este es el name ${name}`);
         dispatch(orderPokemonsByAttack(value));
-        console.log(allPokemonsCopy);
     }
 
 
@@ -46,28 +52,23 @@ function Filters() {
 
        <div>
         <label>Ordenar alfabeticamente</label>
-        <button>A/Z</button>
-        <button>Z/A</button>
+        <button onClick={handleOrderAlf} value="A" >A/Z</button>
+        <button onClick={handleOrderAlf} value="Z" >Z/A</button>
        </div>
 
        <div>
         <label>Ordenar por Attack</label>
-        <select onChange={handleOrder}>
+        <select onChange={handleOrder} name="order">
+          <option value="default" name="default" >Seleccionar orden</option>
           <option value="D" name="D" >Mayor a menor</option>
           <option value="A" name="A" >menor a Mayor</option>
         </select>
        </div>
 
       </div>
+
       <div>
-      {allPokemonsCopy?.map((pokemon) => {
-          return(
-            <NavLink key ={pokemon.id} to={`/detail/${pokemon.id}`}>
-              <Card key={pokemon.id} pokemon={pokemon}/>
-            </NavLink>
-          
-          )})}
-        {/* <Cards allPokemonsCopy={allPokemonsCopy}/> */}
+        <Cards allPokemonsCopy={allPokemonsCopy}/>
        </div>
       </>
     );
