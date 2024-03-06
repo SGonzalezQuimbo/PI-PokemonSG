@@ -42,9 +42,11 @@ console.log(`cantTypesDB largo ${cantTypesDB}`);
 useEffect(()=> {
   if (cantPoke === 0) {
     dispatch(getPokemons());
-    dispatch(getTypesDb());
   };
-},[dispatch, cantPoke]);
+  if (cantTypesDB === 0) {
+      dispatch(getTypesDb());
+  };
+},[dispatch, cantPoke, cantTypesDB]);
 
 //console.log(`en home se monta el componente pokeFiltered ${allPokemonsCopy}`);
 

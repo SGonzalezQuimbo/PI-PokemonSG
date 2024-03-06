@@ -12,14 +12,19 @@ const cargaTypesDB = async () => {
     // }
     // console.log(namesOfTypes);
     console.log(infoTypeApi);
-    const cargaTypes = await Type.bulkCreate(infoTypeApi);
-    //console.log(cargaTypes);
-    return cargaTypes;
+    const cantPokemonOnDB = await Type.findAll();
+    console.log(`esto hay en la base de datos antes de cargar ${cantPokemonOnDB.length}`);
+    if (cantPokemonOnDB.length === 0) {
+        const cargaTypes = await Type.bulkCreate(infoTypeApi);
+        console.log(`esto es despues de cargar ${cargaTypes.length}`);
+        return cargaTypes;
+    }
+    return;
 }
 
 const getAllTypesDb = async () => {
     const TypeDb = await Type.findAll()
-    console.log(TypeDb)
+    console.log(TypeDb.length)
     return TypeDb;
 }
 

@@ -10,6 +10,7 @@ import Cards from "../cards/Cards";
 function Filters() {
 
     const allPokemonsCopy = useSelector(state => state.allPokemonsCopy);
+    const allTypesDb = useSelector(state => state.allTypesDb);
     const dispatch = useDispatch();
     console.log(allPokemonsCopy);
 
@@ -38,7 +39,7 @@ function Filters() {
 
        <div className="filter-type">
         <label>Filtrar por tipo:</label>
-        <SelectType/>
+        <SelectType allTypesDb={allTypesDb}/>
        </div>
 
        <div className="filter-origin">
