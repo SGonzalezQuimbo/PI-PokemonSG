@@ -34,7 +34,7 @@ function Filters() {
       console.log("pokemons reseteados");
     }
 
-    const handleFilterType = (event) => {
+    const changeHandler = (event) => {
       event.preventDefault();
       const {value} = event.target;
       dispatch(filterPokemonsByType(value));
@@ -52,7 +52,7 @@ function Filters() {
 
        <div className="filter-type">
         <label>Filtrar por tipo:</label>
-        <SelectType allTypesDb={allTypesDb} handleFilterType={handleFilterType}/>
+        <SelectType allTypesDb={allTypesDb} changeHandler={changeHandler}/>
        </div>
 
        <div className="filter-origin">

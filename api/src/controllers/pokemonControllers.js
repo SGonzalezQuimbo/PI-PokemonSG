@@ -52,8 +52,16 @@ const getPokemonById = async (idPokemon, source) => {
     source === 'api' 
     ? infoCleanerObj((await axios.get(`https://pokeapi.co/api/v2/pokemon/${idPokemon}`)).data) 
     
-    : await Pokemon.findByPk(idPokemon);
-    //console.log(pokemonXId);
+    : await Pokemon.findByPk(idPokemon, {
+        include: { //para que tambien me muestre la tabla intermedia con los types
+            model: Type,
+            attributes: ['name'],
+            through: {
+                attributes: [],
+            }
+        }
+    });
+    console.log(`esto es en getPkemonById ${pokemonXId}`);
     return pokemonXId;
 }
 

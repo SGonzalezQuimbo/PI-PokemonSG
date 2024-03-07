@@ -54,7 +54,9 @@ function Create() {
     types:[],
   });
 
+
   const changeHandler = (event) => {
+    event.preventDefault();
     const nameInput = event.target.name;
     const valueInput = event.target.value;
 
@@ -81,7 +83,8 @@ function Create() {
 
   const submitHandler = (event) => { //funcion para cargar la DB con lo del formulario
     event.preventDefault();
-    axios.post("http://localhost:3001/pokemons",form)
+    axios.post("http://localhost:3001/pokemons",form);
+    console.log(`en el submitHandler ${form}`);
 
   }
 
@@ -155,7 +158,7 @@ function Create() {
             <input type="text" value={form.types} onChange={changeHandler} name="types"/>
             {errors.types && <span>{errors.types}</span>} */}
             <label>Types:</label>
-            <SelectType allTypesDb={allTypesDb}/>
+            <SelectType allTypesDb={allTypesDb} changeHandler={changeHandler}/>
           </div>
 
           <button type="submit" onClick={submitHandler}>CREATE Pokemon</button>

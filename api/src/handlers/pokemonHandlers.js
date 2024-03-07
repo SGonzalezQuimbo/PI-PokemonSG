@@ -27,7 +27,7 @@ const getPokemonHandler = async (req, res) => {
 
 const getDetailPokemonHandler = async (req, res) => {
     const {idPokemon} = req.params;
-    const source = isNaN(idPokemon) ? 'bdd' : 'api'; //si el id es de tipo numero entonces el usuario debe ser buscado en la api, pero si no es de tipo number(UUID) entonces hay que buscarlo en la BdD
+    const source = isNaN(idPokemon) ? 'bdd' : 'api'; //si el id es de tipo numero entonces el pokemon debe ser buscado en la api, pero si es de tipo (UUID) entonces hay que buscarlo en la BdD
     try {
         const response = await getPokemonById(idPokemon, source)
         res.status(200).json(response);
