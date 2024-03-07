@@ -1,6 +1,6 @@
-import axios from 'axios';
+//import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';// useState,
 import { useDispatch, useSelector } from 'react-redux';
 import { getPokemonsById, clearDetail } from '../../redux/actions/actions';
 
@@ -57,6 +57,7 @@ console.log(pokemonById);
           <h3>Special-Attack:</h3>
            <h3>Special-Defense:</h3>
            <h3>Speed:{pokemonById.speed}</h3>
+
            {pokemonById.types?.map((type) => {
             return(
             <h3 key={Math.random()}>{type.name}</h3>

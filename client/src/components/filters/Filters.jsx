@@ -1,4 +1,4 @@
-import { orderPokemonsAlf, orderPokemonsByAttack } from "../../redux/actions/actions";
+import { filterPokemonsByType, orderPokemonsAlf, orderPokemonsByAttack, resetPokemons } from "../../redux/actions/actions";
 //import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import SelectType from "../../views/create/SelectType";
 import './filters.styles.css';
@@ -28,18 +28,31 @@ function Filters() {
         dispatch(orderPokemonsByAttack(value));
     }
 
+    const handleReset = (event) => {
+      event.preventDefault();
+      dispatch(resetPokemons());
+      console.log("pokemons reseteados");
+    }
+
+    const handleFilterType = (event) => {
+      event.preventDefault();
+      const {value} = event.target;
+      dispatch(filterPokemonsByType(value));
+      console.log(`esto es en filter con el valor ${value}`);
+    }
+
 
     return (
       <>
       <div className="filters-container">
         
         <div>
-            <button>RESET</button>
+            <button onClick={handleReset}>RESET</button>
         </div>
 
        <div className="filter-type">
         <label>Filtrar por tipo:</label>
-        <SelectType allTypesDb={allTypesDb}/>
+        <SelectType allTypesDb={allTypesDb} handleFilterType={handleFilterType}/>
        </div>
 
        <div className="filter-origin">

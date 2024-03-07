@@ -1,4 +1,4 @@
-import { GET_POKEMONS, ORDER, ORDER_ALF, FILTER_BY_ORIGIN, RESET, GET_TYPES, GET_POKEMON_BY_ID, CLEAR_DETAIL } from "../actions/actions_types";
+import { GET_POKEMONS, ORDER, ORDER_ALF, FILTER_BY_ORIGIN, RESET, GET_TYPES, GET_POKEMON_BY_ID, CLEAR_DETAIL, GET_POKEMON_BY_NAME, FILTER_BY_TYPE } from "../actions/actions_types";
 
 
 const initialState = {
@@ -22,6 +22,13 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 pokemonById: action.payload,
             };
+
+        case GET_POKEMON_BY_NAME:
+            return {
+                ...state,
+                allPokemonsCopy: action.payload,
+            }
+
         case CLEAR_DETAIL:
             return {
                 ...state,
@@ -61,8 +68,28 @@ const rootReducer = (state = initialState, action) => {
         case FILTER_BY_ORIGIN:
             break;
 
+        case FILTER_BY_TYPE:
+            //const pokeFiltered = state.allPokemons.types.filter((type) => type.name === action.payload);
+            const pokeFiltered = [];
+
+            for (let i = 0; i < state.allPokemons.length; i++) {
+                for (let t = 0; t < state.allPokemons[i].types.length; t++) {
+                    if (state.allPokemons[i].types[t].name === action.payload) {
+                        pokeFiltered.push(state.allPokemons[i]);
+                    };
+                }
+                
+            }
+            return {
+                ...state,
+                allPokemonsCopy: pokeFiltered,
+            }
+
         case RESET:
-            break;
+            return {
+                ...state,
+                allPokemonsCopy: [...state.allPokemons],
+            }
 
 
     

@@ -1,11 +1,11 @@
 import axios from "axios";
-import { GET_POKEMONS, ORDER_ALF, ORDER, FILTER_BY_ORIGIN, FILTER_BY_TYPE, RESET, GET_TYPES, GET_POKEMON_BY_ID, CLEAR_DETAIL } from "./actions_types";
+import { GET_POKEMONS, GET_POKEMON_BY_NAME, ORDER_ALF, ORDER, FILTER_BY_ORIGIN, FILTER_BY_TYPE, RESET, GET_TYPES, GET_POKEMON_BY_ID, CLEAR_DETAIL } from "./actions_types";
 
 export const getPokemons = () => {
     return async function (dispatch) {
         const apiData = (await axios.get("http://localhost:3001/pokemons")).data;
         //console.log(apiData);
-        dispatch({
+        return dispatch({
             type: GET_POKEMONS,
             payload: apiData
         });
@@ -17,7 +17,7 @@ export const getTypesDb = () => {
         await axios.get("http://localhost:3001/types")
         const apiData = (await axios.get("http://localhost:3001/types/db")).data;
        // console.log(apiData);
-        dispatch({
+        return dispatch({
             type: GET_TYPES,
             payload: apiData
         });
@@ -28,7 +28,7 @@ export const getPokemonsById = (id) => {
     return async function (dispatch) {
         const apiData = (await axios.get(`http://localhost:3001/pokemons/${id}`)).data;
         console.log(apiData);
-        dispatch({
+        return dispatch({
             type: GET_POKEMON_BY_ID,
             payload: apiData
         });
@@ -41,14 +41,19 @@ export const clearDetail = () => {
     }
 }
 
-export const getPokemonsByName = () => {
+export const getPokemonsByName = (name) => {
     return async function (dispatch) {
-        const apiData = (await axios.get("http://localhost:3001/pokemons")).data;
-        //console.log(apiData);
-        dispatch({
-            type: GET_POKEMONS,
+        try {
+            const apiData = (await axios.get(`http://localhost:3001/pokemons/?name=${name}`)).data;
+        console.log(`en getpokebyNAME tengo a ${apiData}`);
+        return dispatch({
+            type: GET_POKEMON_BY_NAME,
             payload: apiData
         });
+        } catch (error) {
+            console.log(error.response.data.message); //arreglar esto para que me mande una alerta en la ventana
+        }
+        
     }
 }
 
