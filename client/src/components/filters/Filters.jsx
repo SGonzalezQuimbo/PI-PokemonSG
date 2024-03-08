@@ -34,11 +34,12 @@ function Filters() {
       console.log("pokemons reseteados");
     }
 
-    const changeHandler = (event) => {
+    const changeHandlerType = (event) => {
       event.preventDefault();
-      const {value} = event.target;
+      const {name, value} = event.target;
+      console.log(event.target);
       dispatch(filterPokemonsByType(value));
-      console.log(`esto es en filter con el valor ${value}`);
+      console.log(`esto es en filter con el valor ${value} , ${name}`);
     }
 
 
@@ -52,7 +53,7 @@ function Filters() {
 
        <div className="filter-type">
         <label>Filtrar por tipo:</label>
-        <SelectType allTypesDb={allTypesDb} changeHandler={changeHandler}/>
+        <SelectType allTypesDb={allTypesDb} changeHandlerType={changeHandlerType}/>
        </div>
 
        <div className="filter-origin">

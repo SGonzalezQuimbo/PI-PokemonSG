@@ -54,32 +54,56 @@ function Create() {
     types:[],
   });
 
+  const [types, setTypes] = useState([]); //estado local para cargar los types de pokemons
+
+
+  const deleteType = (idType) => {
+
+  }
+  const typePoke = {};
+  const changeHandlerType = (event) => {
+    event.preventDefault();
+    const {value} = event.target;
+    setTypes((oldTypes) => [...oldTypes, value]);
+    console.log(allTypesDb)// buscar el id desde aca y tratar de setearlo en algun lado para poder mandarlo a la funcion delete y asignarlo al form tabien
+  }
+  //funcion que me va a servir para cargar la prop types de form
+//   const newForm ={...form};
+
+//   newForm.types.push
+//   let a = ['1', '2', '3'];
+// let b = ['4', '5', '6'];
+// a.push.apply(a, b);
+
+// console.log(a); // resultado: ['1', '2', '3', '4', '5', '6']
+
+//  const typesHard = ["sirve", "nosirve", "si", "notype"];
 
   const changeHandler = (event) => {
     event.preventDefault();
     const nameInput = event.target.name;
     const valueInput = event.target.value;
 
-    setErrors(validate({...form, [nameInput]:valueInput}));
+    //setErrors(validate({...form, [nameInput]:valueInput}));
     setForm({...form, [nameInput]:valueInput});
   };
+  //console.log(form.types);
+  // const validate = (form) => {
+  //   const errors = {};
+  //   if(form.name === "") {errors.name = "Nombre vacio"};
 
-  const validate = (form) => {
-    const errors = {};
-    if(form.name === "") {errors.name = "Nombre vacio"};
+  //   if(form.name !== "") {errors.name = ""};
 
-    if(form.name !== "") {errors.name = ""};
+  //   if(form.image === "") {errors.image = "Imagen vaciaa"};
 
-    if(form.image === "") {errors.image = "Imagen vaciaa"};
+  //   if(form.image !== "") {errors.image =  ""};
 
-    if(form.image !== "") {errors.image =  ""};
+  //   if(form.hp === "") {errors.hp = "Campo hp vacio"};
 
-    if(form.hp === "") {errors.hp = "Campo hp vacio"};
+  //   if(form.hp !== "") {errors.hp =  ""};
 
-    if(form.hp !== "") {errors.hp =  ""};
-
-    return errors;
-  };
+  //   return errors;
+  // };
 
   const submitHandler = (event) => { //funcion para cargar la DB con lo del formulario
     event.preventDefault();
@@ -89,7 +113,8 @@ function Create() {
   }
 
     return (
-      <div className="Create">
+      <div className="Create-container">
+        <div className="form-container">
         <h1>Este es el CREATE</h1>
         <form>
 
@@ -158,12 +183,56 @@ function Create() {
             <input type="text" value={form.types} onChange={changeHandler} name="types"/>
             {errors.types && <span>{errors.types}</span>} */}
             <label>Types:</label>
-            <SelectType allTypesDb={allTypesDb} changeHandler={changeHandler}/>
+            <SelectType allTypesDb={allTypesDb} changeHandlerType={changeHandlerType}/>
           </div>
 
           <button type="submit" onClick={submitHandler}>CREATE Pokemon</button>
 
         </form>
+        </div>
+
+        <div className="detail-container">
+        {/* name:"",
+    image:"",
+    hp:"",
+    attack:"",
+    defense:"",
+    specialattack:"",
+    specialdefense:"",
+    speed:"",
+    height:"",
+    weight:"",
+    types:[], */}
+        <p>{form.name}</p>
+        <p>{form.image}</p>
+        <p>{form.hp}</p>
+        <p>{form.attack}</p>
+        <p>{form.defense}</p>
+        <p>{form.specialattack}</p>
+        <p>{form.specialdefense}</p>
+        <p>{form.speed}</p>
+        <p>{form.height}</p>
+        <p>{form.weight}</p>
+        <p>{form.types}</p>
+        </div>
+
+        
+        <div>
+          {types?.map((type, index) => {
+            return (
+
+              <div>
+                <button onClick={deleteType}>X</button>
+                <h2 key={index}>{`${type} + ${index}`}</h2>
+              </div>
+              
+            )
+          })
+        }
+          
+        </div>
+
+
       </div>
     );
   }

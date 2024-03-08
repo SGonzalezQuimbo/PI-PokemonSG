@@ -1,15 +1,15 @@
 import './selectType.styles.css'
 
-function SelectType({allTypesDb, changeHandler}){
+function SelectType({allTypesDb, changeHandlerType}){
     const allTypesList = allTypesDb;
     console.log(`esto es en SelecType`);
     return (
         <div className="select-container">
-            <select onChange={(event) => changeHandler(event)} defaultValue={"default"}>
-                <option value="default" disabled>Seleccionar Type</option>
+            <select onChange={changeHandlerType} defaultValue={"default"} name="types">
+                <option value="default" name="default" >Seleccionar Type</option>
                 {allTypesList?.map((type) => {
                     return (
-                        <option key={type.id} value={type.name} >{type.name}</option>
+                        <option key={type.id} value={type.name} name={type.id} >{type.name}</option>
                     )
                 })}
             </select>
