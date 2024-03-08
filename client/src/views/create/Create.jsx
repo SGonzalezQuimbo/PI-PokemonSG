@@ -54,19 +54,31 @@ function Create() {
     types:[],
   });
 
-  const [types, setTypes] = useState([]); //estado local para cargar los types de pokemons
+  const [types, setTypes] = useState([]); //estado local para cargar el objeto types (id, name) de pokemons
 
+  const [idTypes, setIdTypes] = useState([]); //estado local para poder guardar solamente el id de los pokemons
+  //este estado que es un array se lo tengo que mandar al form (idTypes)
 
-  const deleteType = (idType) => {
-
+  const deleteType = (idType) => { //filtro los id para quedarme solo con los que son diferentes al que recivi.
+    const typesFiltered = types.filter((type) => type.id !== idType);
+    const idFiltered = idTypes.filter((id) => id !== idType);
+    setIdTypes(idFiltered); //guardo el resultado del filtrado para que sea mas prolijo
+    setTypes(typesFiltered);
   }
-  const typePoke = {};
+  //const typePoke = [];
   const changeHandlerType = (event) => {
     event.preventDefault();
     const {value} = event.target;
-    setTypes((oldTypes) => [...oldTypes, value]);
-    console.log(allTypesDb)// buscar el id desde aca y tratar de setearlo en algun lado para poder mandarlo a la funcion delete y asignarlo al form tabien
+    const idType = allTypesDb.filter((type) => type.name === value)
+    
+    //typePoke.push.apply(typePoke, idType); //guardo en typePoke todos los tipos con su respectivo id.
+    setTypes((oldTypes) => [...oldTypes, idType[0]]);
+    setIdTypes((oldTypes) => [...oldTypes, idType[0].id]);
+    //console.log(typePoke);
+    //console.log(allTypesDb);
   }
+
+  
   //funcion que me va a servir para cargar la prop types de form
 //   const newForm ={...form};
 
@@ -218,12 +230,12 @@ function Create() {
 
         
         <div>
-          {types?.map((type, index) => {
+          {types?.map((type) => {
             return (
 
               <div>
-                <button onClick={deleteType}>X</button>
-                <h2 key={index}>{`${type} + ${index}`}</h2>
+                <button onClick={() => deleteType(type.id)}>X</button>
+                <h2 key={type.id}>{`${type.name} + ${type.id}`}</h2>
               </div>
               
             )

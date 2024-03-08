@@ -9,7 +9,7 @@ function SelectType({allTypesDb, changeHandlerType}){
                 <option value="default" name="default" >Seleccionar Type</option>
                 {allTypesList?.map((type) => {
                     return (
-                        <option key={type.id} value={type.name} name={type.id} >{type.name}</option>
+                        <option key={type.id} id={type.id} value={type.name} name={type.id} >{type.name}</option>
                     )
                 })}
             </select>
