@@ -1,15 +1,17 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";//
-import { getTypesDb, getPokemons, clearAllPokes } from "../../redux/actions/actions";
+import { getTypesDb, clearAllPokes } from "../../redux/actions/actions";
 
+import validate from "./errors/validate";
 import SelectType from "./SelectType";
+
+import './create.styles.css';
 
 function Create() {
 
   const dispatch = useDispatch();
   const allTypesDb = useSelector(state => state.allTypesDb);
-  //const [charged, setCharged] = useState(false) //revisar porque no funciona
   const cantTypesDB = allTypesDb.length;
   useEffect(()=>{
     console.log("crete montado")
@@ -17,16 +19,10 @@ function Create() {
     if (cantTypesDB === 0) {
       dispatch(getTypesDb());
   };
-    // if(!charged){
-    //   dispatch(getTypesDb());
-    //   setCharged(true);
-    // }
 
   },[dispatch, cantTypesDB]);
-
-//console.log(`Esto es despues del useEffect en create ${allTypesDb}`);
   
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState({ //estado local para manejo de errores
     name:"",
     image:"",
     hp:"",
@@ -65,7 +61,7 @@ function Create() {
     setIdTypes(idFiltered); //guardo el resultado del filtrado para que sea mas prolijo
     setTypes(typesFiltered);
   }
-  //const typePoke = [];
+  
   const changeHandlerType = (event) => {
     event.preventDefault();
     const {value} = event.target;
@@ -79,22 +75,48 @@ function Create() {
   }
 
   
-  //funcion que me va a servir para cargar la prop types de form
-  // const logearForm = () => {
-  //   const newForm ={...form};
-  //   newForm.types.push.apply(newForm.types, idTypes);
-  //   setForm(newForm);
-  //   console.log(form);
-  // }
+  
   
   const submitHandler = (event) => { //funcion para cargar la DB con lo del formulario de creacion del pokemon
     event.preventDefault();
     const newForm ={...form};
     newForm.types.push.apply(newForm.types, idTypes);
     setForm(newForm);
+    const errorsAux = Object.keys(errors); //me crea un array con las claves del objeto errors
+    if (errorsAux.length === 0) { // si no hay errores cargados
     axios.post("http://localhost:3001/pokemons",form);
-    console.log(`poke creado con: ${form}`);
     dispatch(clearAllPokes()); //limpio el estado global para que cuando me mueva al componente home, el mismo se re-renderice y actualice el estado con todos los nuevos pokemons
+    setForm({
+      name:"",
+    image:"",
+    hp:"",
+    attack:"",
+    defense:"",
+    specialattack:"",
+    specialdefense:"",
+    speed:"",
+      height:"",
+      weight:"",
+      types:[],
+    });
+    setErrors({
+      name:"",
+    image:"",
+    hp:"",
+    attack:"",
+    defense:"",
+    specialattack:"",
+    specialdefense:"",
+    speed:"",
+    height:"",
+    weight:"",
+    types:[],
+    })
+    setTypes([]);
+    setIdTypes([]);
+    return alert("Pokemon creado exitosamente");
+    }
+    return alert("Error al crear el pokemon");
   }
 
   const changeHandler = (event) => {
@@ -102,39 +124,23 @@ function Create() {
     const nameInput = event.target.name;
     const valueInput = event.target.value;
 
-    //setErrors(validate({...form, [nameInput]:valueInput}));
+    setErrors(validate({...form, [nameInput]:valueInput}));
     setForm({...form, [nameInput]:valueInput});
   };
-  //console.log(form.types);
-  // const validate = (form) => {
-  //   const errors = {};
-  //   if(form.name === "") {errors.name = "Nombre vacio"};
-
-  //   if(form.name !== "") {errors.name = ""};
-
-  //   if(form.image === "") {errors.image = "Imagen vaciaa"};
-
-  //   if(form.image !== "") {errors.image =  ""};
-
-  //   if(form.hp === "") {errors.hp = "Campo hp vacio"};
-
-  //   if(form.hp !== "") {errors.hp =  ""};
-
-  //   return errors;
-  // };
+  
 
   
 
     return (
-      <div className="Create-container">
+      <div className="create-container">
         <div className="form-container">
         <h1>Este es el CREATE</h1>
-        <form>
+        <form  onSubmit={(event) => submitHandler(event)}>
 
           <div>
             <label>Name:</label>
-            <input type="text" value={form.name} onChange={changeHandler} name="name"/>
-            {errors.name && <span>{errors.name}</span>}
+            <input className={errors.name ? "danger" : "success"} type="text" value={form.name} onChange={changeHandler} name="name"/>
+            {errors.name ? <span>{errors.name}</span> : <span>BIENN</span>}
           </div>
 
           <div>
@@ -196,7 +202,11 @@ function Create() {
             <SelectType allTypesDb={allTypesDb} changeHandlerType={changeHandlerType}/>
           </div>
 
-          <button type="submit" onClick={submitHandler}>CREATE Pokemon</button>
+          { Object.keys(errors).length === 0 ? (  //si no hay errores seteados muestro el boton
+            <button type="submit">CREATE Pokemon</button>
+          ) : null}
+
+          
 
         </form>
         </div>
@@ -212,22 +222,21 @@ function Create() {
         <p>{form.speed}</p>
         <p>{form.height}</p>
         <p>{form.weight}</p>
-        </div>
 
-        
-        <div>
+        <div className="types">
           {types?.map((type) => {
             return (
 
               <div key={type.id} className="type-view">
-                <button onClick={() => deleteType(type.id)}>X</button>
-                <h2 key={type.id}>{`${type.name} + ${type.id}`}</h2>
+                <button className="button-type" onClick={() => deleteType(type.id)}>X</button>
+                <h2 key={type.id}>{type.name}</h2>
               </div>
               
             )
           })
-        }
-          
+        }  
+        </div>
+
         </div>
 
 

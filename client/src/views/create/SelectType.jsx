@@ -6,7 +6,7 @@ function SelectType({allTypesDb, changeHandlerType}){
     return (
         <div className="select-container">
             <select onChange={changeHandlerType} defaultValue={"default"} name="types">
-                <option value="default" name="default" >Seleccionar Type</option>
+                <option value="default" name="default" disabled >Seleccionar Type</option>
                 {allTypesList?.map((type) => {
                     return (
                         <option key={type.id} id={type.id} value={type.name} name={type.id} >{type.name}</option>
