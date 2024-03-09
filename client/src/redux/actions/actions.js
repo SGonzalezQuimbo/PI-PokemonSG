@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_POKEMONS, GET_POKEMON_BY_NAME, ORDER_ALF, ORDER, FILTER_BY_ORIGIN, FILTER_BY_TYPE, RESET, GET_TYPES, GET_POKEMON_BY_ID, CLEAR_DETAIL } from "./actions_types";
+import { GET_POKEMONS, GET_POKEMON_BY_NAME, ORDER_ALF, ORDER, FILTER_BY_ORIGIN, FILTER_BY_TYPE, RESET, GET_TYPES, GET_POKEMON_BY_ID, CLEAR_DETAIL, CLEAR_ALL_POKES } from "./actions_types";
 
 export const getPokemons = () => {
     return async function (dispatch) {
@@ -32,6 +32,12 @@ export const getPokemonsById = (id) => {
             type: GET_POKEMON_BY_ID,
             payload: apiData
         });
+    }
+}
+
+export const clearAllPokes = () => {
+    return {
+        type: CLEAR_ALL_POKES,
     }
 }
 

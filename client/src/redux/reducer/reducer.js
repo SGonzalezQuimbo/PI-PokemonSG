@@ -1,4 +1,4 @@
-import { GET_POKEMONS, ORDER, ORDER_ALF, FILTER_BY_ORIGIN, RESET, GET_TYPES, GET_POKEMON_BY_ID, CLEAR_DETAIL, GET_POKEMON_BY_NAME, FILTER_BY_TYPE } from "../actions/actions_types";
+import { GET_POKEMONS, ORDER, ORDER_ALF, FILTER_BY_ORIGIN, RESET, GET_TYPES, GET_POKEMON_BY_ID, CLEAR_DETAIL, GET_POKEMON_BY_NAME, FILTER_BY_TYPE, CLEAR_ALL_POKES } from "../actions/actions_types";
 
 
 const initialState = {
@@ -27,6 +27,13 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 allPokemonsCopy: action.payload,
+            }
+
+        case CLEAR_ALL_POKES:
+            return {
+                ...state,
+                allPokemons: [],
+                allPokemonsCopy: [],
             }
 
         case CLEAR_DETAIL:

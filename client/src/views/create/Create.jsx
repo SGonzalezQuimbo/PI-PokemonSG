@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";//
-import { getTypesDb } from "../../redux/actions/actions";
+import { getTypesDb, getPokemons, clearAllPokes } from "../../redux/actions/actions";
 
 import SelectType from "./SelectType";
 
@@ -80,19 +80,25 @@ function Create() {
 
   
   //funcion que me va a servir para cargar la prop types de form
-//   const newForm ={...form};
-
-//   newForm.types.push
-//   let a = ['1', '2', '3'];
-// let b = ['4', '5', '6'];
-// a.push.apply(a, b);
-
-// console.log(a); // resultado: ['1', '2', '3', '4', '5', '6']
-
-//  const typesHard = ["sirve", "nosirve", "si", "notype"];
+  // const logearForm = () => {
+  //   const newForm ={...form};
+  //   newForm.types.push.apply(newForm.types, idTypes);
+  //   setForm(newForm);
+  //   console.log(form);
+  // }
+  
+  const submitHandler = (event) => { //funcion para cargar la DB con lo del formulario de creacion del pokemon
+    event.preventDefault();
+    const newForm ={...form};
+    newForm.types.push.apply(newForm.types, idTypes);
+    setForm(newForm);
+    axios.post("http://localhost:3001/pokemons",form);
+    console.log(`poke creado con: ${form}`);
+    dispatch(clearAllPokes()); //limpio el estado global para que cuando me mueva al componente home, el mismo se re-renderice y actualice el estado con todos los nuevos pokemons
+  }
 
   const changeHandler = (event) => {
-    event.preventDefault();
+    //event.preventDefault();
     const nameInput = event.target.name;
     const valueInput = event.target.value;
 
@@ -117,12 +123,7 @@ function Create() {
   //   return errors;
   // };
 
-  const submitHandler = (event) => { //funcion para cargar la DB con lo del formulario
-    event.preventDefault();
-    axios.post("http://localhost:3001/pokemons",form);
-    console.log(`en el submitHandler ${form}`);
-
-  }
+  
 
     return (
       <div className="Create-container">
@@ -191,9 +192,6 @@ function Create() {
           </div>
 
           <div>
-            {/* <label>Types:</label>
-            <input type="text" value={form.types} onChange={changeHandler} name="types"/>
-            {errors.types && <span>{errors.types}</span>} */}
             <label>Types:</label>
             <SelectType allTypesDb={allTypesDb} changeHandlerType={changeHandlerType}/>
           </div>
@@ -204,17 +202,6 @@ function Create() {
         </div>
 
         <div className="detail-container">
-        {/* name:"",
-    image:"",
-    hp:"",
-    attack:"",
-    defense:"",
-    specialattack:"",
-    specialdefense:"",
-    speed:"",
-    height:"",
-    weight:"",
-    types:[], */}
         <p>{form.name}</p>
         <p>{form.image}</p>
         <p>{form.hp}</p>
@@ -225,7 +212,6 @@ function Create() {
         <p>{form.speed}</p>
         <p>{form.height}</p>
         <p>{form.weight}</p>
-        <p>{form.types}</p>
         </div>
 
         
@@ -233,7 +219,7 @@ function Create() {
           {types?.map((type) => {
             return (
 
-              <div>
+              <div key={type.id} className="type-view">
                 <button onClick={() => deleteType(type.id)}>X</button>
                 <h2 key={type.id}>{`${type.name} + ${type.id}`}</h2>
               </div>
@@ -250,27 +236,3 @@ function Create() {
   }
   
   export default Create;
-
-//   "name":"hola",
-// "image": "image",
-// "hp": 938,
-// "attack": 90,
-// "defense": 576,
-// "specialattack": 50,
-// "specialdefense": 70,
-// "speed": 100,
-// "height": 453,
-// "weight": 343,
-// "types": [2,12,8]
-
-// Name:
-// Image:
-// HP:
-// Attack:
-// Defense:
-// Specialattack:
-// Specialdefense:
-// Speed:
-// Height:
-// Weight:
-// Types

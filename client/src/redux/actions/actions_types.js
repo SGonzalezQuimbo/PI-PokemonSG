@@ -12,3 +12,4 @@ export const FILTER_BY_TYPE = "FILTER_BY_TYPE";
 
 export const RESET = "RESET";
 export const CLEAR_DETAIL = "CLEAR_DETAIL";
+export const CLEAR_ALL_POKES ="CLEAR_ALL_POKES";
