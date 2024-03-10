@@ -11,7 +11,7 @@ export const getPokemons = () => {
             payload: apiData
         });
         } catch (error) {
-            console.log(error.message);
+            console.log(error.message); //manejar bien los errores
         }
         
     }

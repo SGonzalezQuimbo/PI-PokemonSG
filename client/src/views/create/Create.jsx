@@ -98,13 +98,22 @@ function Create() {
   }
 
   
-  
+  // const fromPrueba = {
+  //   name:"ahora",
+  //   image: "image",
+  //   hp: 938,
+  //   attack: 956,
+  //   defense: 576,
+  //   specialattack: 50,
+  //   specialdefense: 70,
+  //   speed: 100,
+  //   height: 453,
+  //   weight: 343,
+  //   types: [4,3]
+  //   }
   
   const submitHandler = (event) => { //funcion para cargar la DB con lo del formulario de creacion del pokemon
     event.preventDefault();
-    const newForm ={...form};
-    newForm.types.push.apply(newForm.types, idTypes);
-    setForm(newForm);
     const errorsAux = Object.keys(errors); //me crea un array con las claves del objeto errors
     if (errorsAux.length === 0) { // si no hay errores cargados
       console.log(form.types);
@@ -194,7 +203,7 @@ function Create() {
 
           <div>
             <label>Specialattack:</label>
-            <input type="" value={form.specialattack} onChange={changeHandler} name="specialattack"/>
+            <input type="text" value={form.specialattack} onChange={changeHandler} name="specialattack"/>
             {errors.specialattack ? <span>{errors.specialattack}</span> : <span className={errors.specialattack === "" ? "icono-render" : "icono-inicio"}>✅</span>}
           </div>
 
@@ -229,10 +238,10 @@ function Create() {
             {idTypes.length === 0 ? <span>{"Debe incluir un tipo"}</span> : <span className={idTypes.length === 0 ? "icono-render" : "icono-inicio"}>✅</span>}
           </div>
 
-          { ((Object.keys(errors).length === 0) && (idTypes.length > 0)) ? (  //si no hay errores seteados muestro el boton
+          {/* ((Object.keys(errors).length === 0) && (idTypes.length > 0)) ? (  //si no hay errores seteados muestro el boton
             <button type="submit">CREATE Pokemon</button>
-          ) : null}
-
+    ) : null*/}
+              <button type="submit">CREATE Pokemon</button>
         </form>
         </div>
 
