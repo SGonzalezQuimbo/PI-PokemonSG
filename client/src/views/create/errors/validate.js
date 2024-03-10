@@ -4,13 +4,16 @@ const validate = (form) => {
     const regexNumber = /^[0-9]*(\.?)[ 0-9]+$/;
 
 
-    if(!form.name) {errors.name = "Nombre vacio"};
+    if(!form.name) {
+      errors.name = "Nombre vacio"
+    } //else if (form.name)
 
     if(!form.image) {errors.image = "Imagen vaciaa"};
 
-    if(!form.hp) {errors.hp = "Campo hp vacio"};
-
-    if (!regexNumber.test(form.hp)) { errors.hp = "Only numbers"};
+    if(!form.hp) {
+      errors.hp = "Campo hp vacio"
+    } else if (!regexNumber.test(form.hp)) { 
+      errors.hp = "Only numbers"};
 
     if(!form.attack) {errors.attack = "Campo attack vacio"};
 

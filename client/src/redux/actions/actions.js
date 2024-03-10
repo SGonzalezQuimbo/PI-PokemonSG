@@ -3,12 +3,17 @@ import { GET_POKEMONS, GET_POKEMON_BY_NAME, ORDER_ALF, ORDER, FILTER_BY_ORIGIN, 
 
 export const getPokemons = () => {
     return async function (dispatch) {
-        const apiData = (await axios.get("http://localhost:3001/pokemons")).data;
-        //console.log(apiData);
+        try {
+            const apiData = (await axios.get("http://localhost:3001/pokemons")).data;
+        console.log(apiData);
         return dispatch({
             type: GET_POKEMONS,
             payload: apiData
         });
+        } catch (error) {
+            console.log(error.message);
+        }
+        
     }
 }
 
