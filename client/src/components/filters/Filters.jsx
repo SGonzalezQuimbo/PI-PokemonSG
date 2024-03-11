@@ -1,10 +1,11 @@
-import { filterPokemonsByType, orderPokemonsAlf, orderPokemonsByAttack, resetPokemons } from "../../redux/actions/actions";
+import { filterPokemonsByType, orderPokemonsAlf, orderPokemonsByAttack, resetPokemons, filterPokemonsByOrigin } from "../../redux/actions/actions";
 //import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import SelectType from "../../views/create/SelectType";
 import './filters.styles.css';
 import { useSelector, useDispatch } from "react-redux";
-import Cards from "../cards/Cards";
-//import Card from "../card/Card"
+//import Cards from "../cards/Cards";
+import Pagination from "../pagination/Pagination";
+
 
 
 function Filters() {
@@ -13,6 +14,12 @@ function Filters() {
     const allTypesDb = useSelector(state => state.allTypesDb);
     const dispatch = useDispatch();
     console.log(allPokemonsCopy);
+
+    const handleOrderOrigin = (event) => {
+      const {value} = event.target;
+      dispatch(filterPokemonsByOrigin(value));
+      console.log("despachando ordOrigin");
+    }
 
     const handleOrderAlf = (event) => {
       event.preventDefault();
@@ -58,10 +65,10 @@ function Filters() {
 
        <div className="filter-origin">
         <label>Filtrar por origen:</label>
-        <select>
-            <option>All Poke</option>
-          <option>DB</option>
-          <option>API</option>  
+        <select onChange={handleOrderOrigin}>
+          <option value="ALL">All Pokes</option>
+          <option value="DB">DB</option>
+          <option value="API">API</option>
         </select>
        </div>
 
@@ -82,9 +89,14 @@ function Filters() {
 
       </div>
 
-      <div>
+      {/* <div>
         <Cards allPokemonsCopy={allPokemonsCopy}/>
+       </div> */}
+
+       <div>
+        <Pagination allPokemonsCopy={allPokemonsCopy}/>
        </div>
+
       </>
     );
   }

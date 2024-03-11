@@ -78,12 +78,12 @@ function Create() {
     const {value} = event.target;
     console.log(value);
     console.log(event.target.name);
-    const idType = allTypesDb.filter((type) => type.name === value)
+    const idType = allTypesDb.filter((type) => type.name === value);
     
     if (!idTypes.includes(idType[0].id)) {
     setTypes((oldTypes) => [...oldTypes, idType[0]]);
     setIdTypes((oldTypes) => [...oldTypes, idType[0].id]);
-    const arrId = []
+    const arrId = [];
     arrId.push(idType[0].id);
 
     //parte agregada

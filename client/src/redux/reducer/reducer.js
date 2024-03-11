@@ -73,7 +73,18 @@ const rootReducer = (state = initialState, action) => {
             };
 
         case FILTER_BY_ORIGIN:
-            break;
+            const filteredPokes = state.allPokemons.filter((poke) => {
+                if (action.payload === "DB") {
+                    return (poke.created === true);
+                } else if (action.payload === "API") {
+                    return (poke.created === false);
+                }
+                return (poke); //caso ALL POKEMONS
+            });
+            return {
+                ...state,
+                allPokemonsCopy: filteredPokes,
+            };
 
         case FILTER_BY_TYPE:
             //const pokeFiltered = state.allPokemons.types.filter((type) => type.name === action.payload);
