@@ -4,13 +4,17 @@ function Card({pokemon}) {
   const typesOfPoke = pokemon.types //array
     return (
       <div className="card-container">
-        <h2>Name:{pokemon.name}</h2>
+        <h2>{pokemon.name}</h2>
         <h3>Attack:{pokemon.attack}</h3>
-        <img src={pokemon.image} alt='image_pokemon'></img>
-        {typesOfPoke?.map((type) => {
+        <img className='poke-image' src={pokemon.image} alt='image_pokemon'></img>
+        
+        <div className='type-container'>
+          {typesOfPoke?.map((type) => {
           return(
-          <h3 key={Math.random()}>{type.name}</h3>
+          <div className="type" key={Math.random()}>{type.name}</div>
           )})}
+        </div>
+        
       </div>
     );
   }

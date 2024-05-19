@@ -22,7 +22,7 @@ const infoCleanerObj = (pokeObj) => {
 
         let allStates = {}; //en este objeto se guardan las propiedades del estado de los pokemons con el nombre de cada estado como clave y su valor como value
         pokeObj.stats.forEach((st) => {
-            allStates[st.stat.name] = st.base_stat;
+            allStates[(st.stat.name).replace('-', '')] = st.base_stat; //utilizo el metodo replace() para eliminar los guiones de algunos nombres de propiedades
             Object.assign(objPokemon, allStates); //esto si quiero que las carcteristicas sean key y value diferentes del mismo objeto de retorno
         });
 
@@ -61,29 +61,42 @@ const getPokemonById = async (idPokemon, source) => {
             }
         }
     });
-    console.log(`esto es en getPkemonById ${pokemonXId}`);
     return pokemonXId;
 }
 
 const getPokemonByName = async (name) => {
+    
+    let totalPokemons = []; //creo este array para poder almacenar y retornar la info tanto de la API com de la BDD unificadas
+    
     const infoApi = (await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)).data;
 
-    const pokemonApi = infoCleanerObj(infoApi);
+    if (infoApi) {
+        const pokemonApi = infoCleanerObj(infoApi);
+        totalPokemons.push(pokemonApi); //en el caso de la API es seguro que hay un pokemon de nombre unico
+    }
 
-    const pokemonDB = (await Pokemon.findAll({where: {name: name}}));
+    const pokemonDB = (await Pokemon.findAll({
+        where: {name: name},
+        include: {
+            model: Type,
+            attributes: ['name'],
+            through: {
+                attributes: [],
+            }
+        }
+    }));
 
-    let totalPokemons = [];          //creo este array para poder almacenar y retornar la info tanto de la API com de la BDD unificadas
-    totalPokemons.push(pokemonApi);  //en el caso de la API es seguro que hay un pokemon de nombre unico
-    for (let i = 0; i < pokemonDB.length; i++) { //pero en el caso de la BDD yo puedo tener varios pokemon con el mismo nombre.
+              
+     
+    for (let i = 0; i < pokemonDB.length; i++) { //en el caso de la BDD yo puedo tener varios pokemon con el mismo nombre.
         totalPokemons.push(pokemonDB[i]);
     }
      return totalPokemons;
 }
 
-
-//const URL = "https://pokeapi.co/api/v2/pokemon"; 
+ 
 const FILTER_POKE = "?limit=";
-const CANT_POKE = "20";
+const CANT_POKE = "60";
 
 
 const getAllPokemons = async () => {
@@ -99,44 +112,13 @@ const getAllPokemons = async () => {
     );
     
     const infoApi = (await axios.get(`https://pokeapi.co/api/v2/pokemon${FILTER_POKE}${CANT_POKE}`)).data;//.data.results
-    //let urlNext = infoApi.next;
    
-//descomentar cesto es codigo original
     const allPokemonsApi = infoApi.results.map( async (poke) => { 
         const response = (await axios.get(poke.url)).data;
         return infoCleanerObj(response);
     })
-//hataa aca codigo original
 
-    //parte agregada para poder cargar mas pokemons
-    // let totalPokemons = (await Promise.all(allPokemonsApi))
-    // const cantVueltas = 6;
-    // let vuelta = 1;
-    // while (vuelta !== cantVueltas) {
-    //     let infoApiNext = (await axios.get(urlNext)).data;
-    //     console.log(`dentro del while ${urlNext}`);
-    //     urlNext = infoApiNext.next;
-
-    //     const allPokemonsNext = infoApiNext.results.map(async (poke) =>{
-    //         const response =(await axios.get(poke.url)).data;
-    //         return infoCleanerObj(response);
-    //     });
-        
-    //     console.log(`ultimo valor en el while ${urlNext}`);
-    //     vuelta++;
-    //     console.log(vuelta);
-    //     totalPokemons.push(await Promise.all(allPokemonsNext));
-    // }
-
-    //hasta aca se agrego para poder cargar mas poquemons
-
-
-    //console.log(await Promise.all(allPokemonsApi));
-    //return (await Promise.all(allPokemonsApi));
-
-    //optimizar funcion y hacerla reutilizable
-    //tottalPokemons la declaro mas arriba para cargar los pokemons.
-    let totalPokemons = (await Promise.all(allPokemonsApi));          //creo este array para poder almacenar y retornar la info tanto de la API com de la BDD unificadas
+    let totalPokemons = (await Promise.all(allPokemonsApi));//creo este array para poder almacenar y retornar la info tanto de la API com de la BDD unificadas
     for (let i = 0; i < pokemonDB.length; i++) { //pero en el caso de la BDD yo puedo tener varios pokemon con el mismo nombre.
         totalPokemons.push(pokemonDB[i]);
     }

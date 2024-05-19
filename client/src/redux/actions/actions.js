@@ -53,16 +53,16 @@ export const clearDetail = () => {
 }
 
 export const getPokemonsByName = (name) => {
+    //const name_ok = name.toLowerCa
     return async function (dispatch) {
         try {
             const apiData = (await axios.get(`http://localhost:3001/pokemons/?name=${name}`)).data;
-        console.log(`en getpokebyNAME tengo a ${apiData}`);
         return dispatch({
             type: GET_POKEMON_BY_NAME,
             payload: apiData
         });
         } catch (error) {
-            console.log(error.response.data.message); //arreglar esto para que me mande una alerta en la ventana
+            alert(error.response.data.message); //arreglar esto para que me mande una alerta en la ventana
         }
         
     }

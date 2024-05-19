@@ -2,6 +2,11 @@ const axios = require('axios');
 
 const {Type} = require("../db");
 
+const crateType = async (name) => {
+    const newType = await Type.create({name});
+    return newType;
+}
+
 const cargaTypesDB = async () => {
     const infoTypeApi = (await axios.get('https://pokeapi.co/api/v2/type')).data.results;
     console.log(infoTypeApi.length);
@@ -29,4 +34,4 @@ const getAllTypesDb = async () => {
 }
 
 
-module.exports = {cargaTypesDB, getAllTypesDb};
+module.exports = {cargaTypesDB, getAllTypesDb, crateType};

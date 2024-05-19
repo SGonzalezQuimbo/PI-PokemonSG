@@ -53,24 +53,18 @@ function Create() {
   const [types, setTypes] = useState([]); //estado local para cargar el objeto types (id, name) de pokemons
 
   const [idTypes, setIdTypes] = useState([]); //estado local para poder guardar solamente el id de los pokemons
-  //este estado que es un array se lo tengo que mandar al form (idTypes)
+                                              //este estado (idTypes) selo mando al form 
 
   const deleteType = (idType, event) => { //filtro los id para quedarme solo con los que son diferentes al que recivi.
     const typesFiltered = types.filter((type) => type.id !== idType);
     const idFiltered = idTypes.filter((id) => id !== idType);
-    setIdTypes(idFiltered); //guardo el resultado del filtrado para que sea mas prolijo
+    setIdTypes(idFiltered);
     setTypes(typesFiltered);
-    // console.log(`en deleteType ${event.target.name}`);
-    // console.log(`en deleteType ${event.target.value}`);
-
     
-
-    //agregada
     const newForm ={...form, types: []};
     newForm.types.push.apply(newForm.types, idFiltered);
     setForm(newForm);
-    // newForm.types.push.apply(newForm.types, idFiltered);
-    // setForm(newForm);
+  
   }
   
   const changeHandlerType = (event) => {
@@ -116,7 +110,7 @@ function Create() {
     event.preventDefault();
     const errorsAux = Object.keys(errors); //me crea un array con las claves del objeto errors
     if (errorsAux.length === 0) { // si no hay errores cargados
-      console.log(form.types);
+      
     axios.post("http://localhost:3001/pokemons",form);
     dispatch(clearAllPokes()); //limpio el estado global para que cuando me mueva al componente home, el mismo se re-renderice y actualice el estado con todos los nuevos pokemons
     setForm({
@@ -153,10 +147,8 @@ function Create() {
   }
 
   const changeHandler = (event) => {
-    //event.preventDefault();
     const nameInput = event.target.name;
     const valueInput = event.target.value;
-    console.log(`en cangeHandler nameInput: ${nameInput} y valueInput: ${valueInput} `);
 
     setErrors(validate({...form, [nameInput]:valueInput}));
     setForm({...form, [nameInput]:valueInput});
@@ -164,16 +156,16 @@ function Create() {
   
 
   
- //const allTypesList = allTypesDb;
+
     return (
       <div className="create-container">
         <div className="form-container">
-        <h1>Este es el CREATE</h1>
+        <h1>Create your Pokemon</h1>
         <form  onSubmit={(event) => submitHandler(event)}>
 
           <div>
             <label>Name:</label>
-            <input className={errors.name ? "danger" : "success"} type="text" value={form.name} onChange={changeHandler} name="name"/>
+            <input type="text" value={form.name} onChange={changeHandler} name="name"/>
             {errors.name ? <span>{errors.name}</span> : <span className={errors.name === "" ? "icono-render" : "icono-inicio"}>✅</span>}
           </div>
 
@@ -185,7 +177,7 @@ function Create() {
 
           <div>
             <label>HP:</label>
-            <input className={errors.hp ? "danger" : "success"} type="text" value={form.hp} onChange={changeHandler} name="hp"/>
+            <input  type="text" value={form.hp} onChange={changeHandler} name="hp"/>
             {errors.hp ? <span>{errors.hp}</span> : <span className={errors.hp === "" ? "icono-render" : "icono-inicio"}>✅</span>}
           </div>
 
@@ -233,15 +225,17 @@ function Create() {
 
           <div>
             <label>Types:</label>
-            {/*(idTypes.length < 4) ? () : null*/}
-            <SelectType allTypesDb={allTypesDb} changeHandlerType={changeHandlerType}/>
-            {idTypes.length === 0 ? <span>{"Debe incluir un tipo"}</span> : <span className={idTypes.length === 0 ? "icono-render" : "icono-inicio"}>✅</span>}
+            {(idTypes.length < 3) ? 
+            (<SelectType allTypesDb={allTypesDb} changeHandlerType={changeHandlerType}/> 
+            ) : null}
+            
+            {idTypes.length === 0 ? <span>{"Must add a type"}</span> : <span className={idTypes.length === 0 ? "icono-render" : "icono-inicio"}>✅</span>}
           </div>
 
-          {/* ((Object.keys(errors).length === 0) && (idTypes.length > 0)) ? (  //si no hay errores seteados muestro el boton
+          { ((Object.keys(errors).length === 0) && (idTypes.length > 0)) ? (  //si no hay errores seteados muestro el boton
             <button type="submit">CREATE Pokemon</button>
-    ) : null*/}
-              <button type="submit">CREATE Pokemon</button>
+    ) : null}
+              
         </form>
         </div>
 

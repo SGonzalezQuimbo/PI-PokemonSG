@@ -2,32 +2,59 @@ const validate = (form) => {
     const errors = {};
     //const regexURL = /(?:https?):\/\/(\w+:?\w*)?(\S+)(:\d+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
     const regexNumber = /^[0-9]*(\.?)[ 0-9]+$/;
+    const regexLetter = /^[A-Z]+$/i;
+    const longName = 15;
 
 
     if(!form.name) {
-      errors.name = "Nombre vacio"
-    } //else if (form.name)
+      errors.name = "Include a name"
+    } else if (!regexLetter.test(form.name)) {
+      errors.name = "Only letters"
+    } else if (form.name.length > longName) {
+      errors.name = `Maximum ${longName} letters`
+    };
 
-    if(!form.image) {errors.image = "Imagen vaciaa"};
+    if(!form.image) {errors.image = "Include a image or a description"};
 
     if(!form.hp) {
-      errors.hp = "Campo hp vacio"
+      errors.hp = "Include value"
     } else if (!regexNumber.test(form.hp)) { 
       errors.hp = "Only numbers"};
 
-    if(!form.attack) {errors.attack = "Campo attack vacio"};
+    if(!form.attack) {
+      errors.attack = "Include value"
+    } else if (!regexNumber.test(form.attack)) { 
+      errors.attack = "Only numbers"};
 
-    if(!form.defense) {errors.defense = "Campo defense vacio"};
+    if(!form.defense) {
+      errors.defense = "Include value"
+    } else if (!regexNumber.test(form.defense)) { 
+      errors.defense = "Only numbers"};
 
-    if(!form.specialattack) {errors.specialattack = "Campo specialattack vacio"};
+    if(!form.specialattack) {
+      errors.specialattack = "Include value"
+    } else if (!regexNumber.test(form.specialattack)) { 
+      errors.specialattack = "Only numbers"};
 
-    if(!form.specialdefense) {errors.specialdefense = "Campo specialdefense vacio"};
+    if(!form.specialdefense) {
+      errors.specialdefense = "Include value"
+    } else if (!regexNumber.test(form.specialdefense)) { 
+      errors.specialdefense = "Only numbers"};
 
-    if(!form.speed) {errors.speed = "Campo speed vacio"};
+    if(!form.speed) {
+      errors.speed = "Include value"
+    } else if (!regexNumber.test(form.speed)) { 
+      errors.speed = "Only numbers"};
 
-    if(!form.height) {errors.height = "Campo height vacio"};
+    if(!form.height) {
+      errors.height = "Include value"
+    } else if (!regexNumber.test(form.height)) { 
+      errors.height = "Only numbers"};
 
-    if(!form.weight) {errors.weight = "Campo weight vacio"};
+    if(!form.weight) {
+      errors.weight = "Include value"
+    } else if (!regexNumber.test(form.weight)) { 
+      errors.weight = "Only numbers"};
 
     return errors;
   };

@@ -1,0 +1,25 @@
+.detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+}
+
+.img-detail {
+    width: 70%;
+}
+
+.types-detail {
+    display: flex;
+    justify-content: space-around;
+    order: 4;
+}
+
+.type-detail {
+
+    background-color: aquamarine;
+    border: 1px solid red;
+    border-radius: 30%;
+    width: 70px;
+    height: 30px;
+}
+

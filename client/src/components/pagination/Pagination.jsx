@@ -1,9 +1,11 @@
 import { useState } from "react";
 import Cards from "../cards/Cards";
 
+import './pagination.styles.css';
+
 function Pagination({allPokemonsCopy}) {
 
-const [pokeQt, setPokeQt] = useState(4); //estado local para manejar la cantidad de pokemons que quiero renderizar en la pagina
+const [pokeQt, setPokeQt] = useState(12); //estado local para manejar la cantidad de pokemons que quiero renderizar en la pagina
 const [page, setPage] = useState(1); //estado para controlar y/o actualizar el numero de la pagina en la que me encuentro.
 
 //ahora es necesario manejar de forma dinamica los indices del slice para mostrar los diferentes pokemons
@@ -28,20 +30,9 @@ const next = () => {
     setPage(page + 1);
   }
 }
-
-// const handlePage = (event) =>{
-//   event.preventDefault();
-//   const value = event.target.value;
-//   if(value === "next" & page !== totalPages) {
-//     setPage(page + 1);
-//   } else {
-//     if(value === "prev" & page !== 1){
-//       setPage(page -1);
-//     }
-//   }
-// };
-
-
+// if (page > totalPages || page < totalPages) {
+//   setPage(0);
+// }
 
     return (
 

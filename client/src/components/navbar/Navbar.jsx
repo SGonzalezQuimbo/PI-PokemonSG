@@ -19,6 +19,7 @@ function Navbar() {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(`se busco el pokemon ${searchString}`);
+    console.log(typeof(searchString));
     dispatch(getPokemonsByName(searchString));
   }
 
@@ -26,6 +27,7 @@ function Navbar() {
 
     return (
       <div className="navbar">
+        <Link to="/">LANDING</Link>
         <Link to="/home">HOME</Link>
         <Link to="/create">CREATE</Link>
         <form onChange={handleChange}>
